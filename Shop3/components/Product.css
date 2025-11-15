@@ -1,0 +1,11 @@
+td {
+    border: solid 1px;
+    text-align: center;
+}
+.selected {
+    background-color: yellow;
+}
+td>img{
+    width: 105px;
+    height: 125px;
+}
