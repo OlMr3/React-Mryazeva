@@ -47,7 +47,7 @@ class Shop extends React.Component {
  
   handleSaveProduct = (product) => {
   this.setState((prevState) => {
-    const updateProducts = prevState.products;
+    const updateProducts = [...prevState.products];
     const index = updateProducts.findIndex(p => p.id === product.id);
     if (index >= 0) {
       updateProducts[index] = product;
