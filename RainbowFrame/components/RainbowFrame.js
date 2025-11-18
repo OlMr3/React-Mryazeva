@@ -6,23 +6,17 @@ class RainbowFrame extends React.Component {
   static propTypes= {
     colors: PropTypes.array,
   };
-  buildFrames(colors, children) {
-    return colors.reduceRight((acc, color) => (
-      <div 
-      key = {color}
-      style={{
-          border: `10px solid ${color}`
-        }}
-        className='RainbowFrame'
-      >
-        {acc}
-      </div>
-
-    ), children);
-  }
 render(){
   const {colors, children} = this.props;
-  return this.buildFrames(colors, children);
+  const buildFrames = colors.reduceRight((child, color) =>{
+      return (
+        <div style={{ border: `10px solid ${color}`}}
+        className='RainbowFrame'>
+          {child}
+        </div>
+      );
+    }, children);
+  return buildFrames;
 }
 
 }
