@@ -36,6 +36,7 @@ class MobileCompany extends React.PureComponent {
     this.setState({name:'A1'});
   };
    componentDidMount() {
+    
     mobileEvent.on('deleteClient', this.handleDelete);
     mobileEvent.on('editClientField', this.handleEditField);
     mobileEvent.on('saveClient', this.handleSave);
@@ -59,6 +60,7 @@ class MobileCompany extends React.PureComponent {
   };
 
   handleEditField = ({ clientId, field, value }) => {
+   
     this.setState(prev => {
       const newClients = prev.clients.map(c => {
         if (c.id === clientId) {
@@ -70,7 +72,14 @@ class MobileCompany extends React.PureComponent {
     });
   };
 
- 
+  handleSave = () => {
+    this.setState({ editingClientId: null });
+  };
+
+  handleCancel = () => {
+    
+  };
+
   handleAddClient = () => {
   
     const maxId = this.state.clients.reduce((max, c) => Math.max(max, c.id), 0);
