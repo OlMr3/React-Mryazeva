@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
-import {mobileEvent} from './events';
+import { mobileEvent } from './events';
 import MobileClient from './MobileClient';
 
 import './MobileCompany.css';
@@ -9,14 +9,14 @@ class MobileCompany extends React.PureComponent {
 
   static propTypes = {
     name: PropTypes.string.isRequired,
-    clients:PropTypes.arrayOf(
+    clients: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
         fam: PropTypes.string.isRequired,
         im: PropTypes.string.isRequired,
         otch: PropTypes.string.isRequired,
         balance: PropTypes.number.isRequired,
-        
+
       })
     ),
   };
@@ -29,14 +29,14 @@ class MobileCompany extends React.PureComponent {
   };
 
   setName1 = () => {
-    this.setState({name:'МТС'});
+    this.setState({ name: 'МТС' });
   };
 
   setName2 = () => {
-    this.setState({name:'A1'});
+    this.setState({ name: 'A1' });
   };
-   componentDidMount() {
-    
+  componentDidMount() {
+
     mobileEvent.on('deleteClient', this.handleDelete);
     mobileEvent.on('editClientField', this.handleEditField);
     mobileEvent.on('saveClient', this.handleSave);
@@ -60,7 +60,7 @@ class MobileCompany extends React.PureComponent {
   };
 
   handleEditField = ({ clientId, field, value }) => {
-   
+
     this.setState(prev => {
       const newClients = prev.clients.map(c => {
         if (c.id === clientId) {
@@ -77,11 +77,11 @@ class MobileCompany extends React.PureComponent {
   };
 
   handleCancel = () => {
-    
+
   };
 
   handleAddClient = () => {
-  
+
     const maxId = this.state.clients.reduce((max, c) => Math.max(max, c.id), 0);
     const newClient = {
       id: maxId + 1,
@@ -100,15 +100,15 @@ class MobileCompany extends React.PureComponent {
   setFilter = (filter) => {
     this.setState({ filter, editingClientId: null });
   };
-   handleEditClient = (clientId) => {
+  handleEditClient = (clientId) => {
     this.setState({ editingClientId: clientId });
   };
-  
+
   render() {
 
     console.log("MobileCompany render");
     const { clients, filter, editingClientId } = this.state;
-let filteredClients = clients;
+    let filteredClients = clients;
     if (filter === 'active') {
       filteredClients = clients.filter(c => c.balance > 0);
     } else if (filter === 'blocked') {
@@ -116,12 +116,13 @@ let filteredClients = clients;
     }
 
     const clientsCode = filteredClients.map(client => (
-      <MobileClient 
-      key={client.id} 
-      client={client} 
-      isNew={client.isNew} 
-      isEditing={client.id === this.state.editingClientId }  
-      onEdit={() => this.handleEditClient(client.id)}/>
+      <MobileClient
+        key={client.id}
+        client={client}
+        isNew={client.isNew}
+        isEditing={client.id === editingClientId}
+        onEdit={this.handleEditClient} 
+        clientId={client.id}/>
     ));
 
     return (
@@ -150,7 +151,7 @@ let filteredClients = clients;
         <button onClick={() => mobileEvent.emit('addClient')}>Добавить клиента</button>
       </div>
     )
-    ;
+      ;
 
   }
 

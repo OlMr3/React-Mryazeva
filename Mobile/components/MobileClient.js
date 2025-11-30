@@ -4,7 +4,7 @@ import { mobileEvent } from './events';
 import './MobileClient.css';
 
 class MobileClient extends React.PureComponent {
-  static propTypes = {
+ static propTypes = {
     client: PropTypes.shape({
       id: PropTypes.number.isRequired,
       fam: PropTypes.string.isRequired,
@@ -12,20 +12,22 @@ class MobileClient extends React.PureComponent {
       otch: PropTypes.string.isRequired,
       balance: PropTypes.number.isRequired,
       isNew: PropTypes.bool,
-      onEdit: PropTypes.func 
     }).isRequired,
-    isNew: PropTypes.bool
+    isNew: PropTypes.bool,
+    isEditing: PropTypes.bool.isRequired,  // Добавляем
+    onEdit: PropTypes.func.isRequired,     // Добавляем
+    clientId: PropTypes.number.isRequired, // Добавляем
   };
   constructor(props) {
     super(props);
-    this.state = { isEditing: props.isNew || false};
+    /*this.state = { isEditing: props.isNew || false};*/
     this.famRef = React.createRef();
     this.imRef = React.createRef();
     this.otchRef = React.createRef();
     this.balanceRef = React.createRef();
 
   }
-componentDidMount() {
+/*componentDidMount() {
     if (this.props.isNew) {
       this.setState({ isEditing: true });
     }
@@ -34,21 +36,35 @@ componentDidUpdate(prevProps) {
   if (prevProps.isNew && !this.props.isNew) {
     this.setState({ isEditing: false });
   }
-}
+}*/
 
  handleEdit = () => {
-    this.setState({ isEditing: true });
+    /*this.setState({ isEditing: true });*/
     if (this.props.onEdit) {
-      this.props.onEdit(); 
+      /*this.props.onEdit(); */
+      this.props.onEdit(this.props.clientId);
     }
   };
 
   handleCancel = () => {
-    this.setState({ isEditing: false });
+    /*this.setState({ isEditing: false });*/
     mobileEvent.emit('cancelEdit', this.props.client.id);
   };
 
-  handleSave = () => {
+   handleSave = () => {
+    // Убираем setState
+    const newFam = this.famRef.current.value;
+    const newIm = this.imRef.current.value;
+    const newOtch = this.otchRef.current.value;
+    const newBalance = parseFloat(this.balanceRef.current.value);
+    mobileEvent.emit('editClientField', { clientId: this.props.client.id, field: 'fam', value: newFam });
+    mobileEvent.emit('editClientField', { clientId: this.props.client.id, field: 'im', value: newIm });
+    mobileEvent.emit('editClientField', { clientId: this.props.client.id, field: 'otch', value: newOtch });
+    mobileEvent.emit('editClientField', { clientId: this.props.client.id, field: 'balance', value: newBalance });
+    mobileEvent.emit('saveClient');  // Эмитим сохранение
+  };
+
+ /* handleSave = () => {
     const newFam = this.famRef.current.value;
     const newIm = this.imRef.current.value;
     const newOtch = this.otchRef.current.value;
@@ -58,7 +74,7 @@ componentDidUpdate(prevProps) {
     mobileEvent.emit('editClientField', { clientId: this.props.client.id, field: 'otch', value: newOtch });
     mobileEvent.emit('editClientField', { clientId: this.props.client.id, field: 'balance', value: newBalance });
     this.setState({isEditing: false});
-  };
+  };*/
 
   handleDelete = () => {
     mobileEvent.emit('deleteClient', this.props.client.id);
@@ -68,7 +84,7 @@ componentDidUpdate(prevProps) {
 
     console.log(`MobileClient id=${this.props.client.id} render`);
     const c = this.props.client;
-    const editing = this.state.isEditing;
+    const editing = this.props.isEditing;
     const status = c.balance >= 0 ? 'active' : 'blocked';
 
     return (
