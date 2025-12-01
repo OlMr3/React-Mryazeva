@@ -24,8 +24,8 @@ function Filter({ wordsArr }) {
     setChecked(!checked);
   };
 
-  const handleSearchChange = (eo) => {
-    setSearchText(eo.target.value.toLowerCase());
+  const handleSearchChange = (value) => {
+    setSearchText(value.toLowerCase());
   };
 
   const handleReset = () => {

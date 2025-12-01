@@ -5,7 +5,7 @@ function Controls({ checked, searchText, onCheckboxChange, onSearchChange, onRes
     return (
         <React.Fragment>
             <input type='checkbox' checked={checked} onChange={onCheckboxChange} />
-            <input type='text' value={searchText} onChange={onSearchChange} />
+            <input type='text' value={searchText} onChange={(e) => onSearchChange(e.target.value)} />
             <input type='button' value="Сброс" onClick={onReset} />
         </React.Fragment>
     );
