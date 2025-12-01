@@ -1,0 +1,9 @@
+﻿.Filter_Container{
+  width: 250px;
+}
+
+.List_Words{
+  overflow: auto;
+  max-height: 120px;
+  list-style-type: none;
+}
