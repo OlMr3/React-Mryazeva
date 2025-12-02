@@ -1,0 +1,30 @@
+﻿div.MobileClient {
+  padding: 2px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+div.MobileClientBalance {
+
+  width: 30px;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 30px;
+}
+
+div.MobileClientFIO {
+  display: flex;
+  justify-content: space-between;
+  /* margin-right: 30px;*/
+
+}
+div.MobileClientFIO>div{
+  width: 200px;
+}
+span.status-blocked {
+  color: red;
+}
+
+.Button {
+  margin-right: 30px;
+}
