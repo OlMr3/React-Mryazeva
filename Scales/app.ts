@@ -42,7 +42,7 @@ const apple2 = new Apple ('Фуджи', 150);
 const apple3 = new Apple ('Ранет', 200);
 const tomato1 = new Tomato('Черный принц', 180);
 const tomato2 = new Tomato('Чио-чио-сан', 30);
-const tomato3 = new Tomato('Де барао', 120);
+const tomato3 = new Tomato('Де Барао', 120);
 
 scales.add(apple1);
 scales.add(apple2);
@@ -51,6 +51,6 @@ scales.add(tomato1);
 scales.add(tomato2);
 scales.add(tomato3);
 
-console.log(`Суммарные вес: ${scales.getSumScale()} гh.`);
+console.log(`Суммарные вес: ${scales.getSumScale()} г.`);
 console.log(`Список продуктов: ${scales.getNameList()}`);
 
