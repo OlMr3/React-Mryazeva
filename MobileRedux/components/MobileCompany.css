@@ -1,0 +1,22 @@
+﻿.MobileCompany
+{
+  border: double gray 3px;
+
+  padding: 3px 7px;
+  background-color: lightyellow;
+}
+
+.MobileCompanyName
+{
+  font-weight: bold;
+}
+.Table{
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bolder;
+}
+.MobileCompanyClients
+{
+  padding-top: 5px;
+}
