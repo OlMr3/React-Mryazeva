@@ -5,8 +5,6 @@ import { fetchUserCart } from './cartThunks';
 
 export const setupAuthListener = (dispatch) => {
   return onAuthStateChanged(auth, (user) => {
-    console.log('Auth State Changed:', user);
-    
     if (user) {
       const userData = {
         uid: user.uid,

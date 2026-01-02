@@ -9,15 +9,12 @@ import {
   Link,
   CircularProgress
 } from '@mui/material';
-import { loginUser } from '../../../store/slices/authThunks'; // Импортируем экшен
+import { loginUser } from '../../../store/slices/authThunks'; 
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Получаем состояние загрузки и ошибки из хранилища
   const { loading, error } = useSelector((state) => state.auth);
-
-  // Локальное состояние для полей формы
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -29,9 +26,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Диспатчим экшен входа и ждем его завершения
     const resultAction = await dispatch(loginUser(formData));
-    // Если экшен выполнился успешно, перенаправляем на главную
     if (loginUser.fulfilled.match(resultAction)) {
       navigate('/');
     }
@@ -39,9 +34,7 @@ const LoginForm = () => {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-      {/* Поле для вывода общей ошибки */}
       {error && <Alert severity="error">{error}</Alert>}
-
       <TextField
         margin="normal"
         required

@@ -2,8 +2,6 @@ import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { selectUserData, selectIsAuth } from '../../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-
-// Импортируем компоненты из Material-UI
 import {
   Container,
   Paper,
@@ -46,12 +44,9 @@ export default function ProfilePage() {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-        {/* Заголовок */}
         <Typography variant="h4" component="h1" gutterBottom align="center">
           Профиль пользователя
         </Typography>
-        
-        {/* Аватар */}
         <Box display="flex" justifyContent="center" mb={3}>
           <Avatar
             src={avatarUrl}
@@ -64,8 +59,6 @@ export default function ProfilePage() {
             {!avatarUrl && <AccountCircleIcon fontSize="inherit" />}
           </Avatar>
         </Box>
-
-        {/* Информация о пользователе */}
         <Box sx={{ mt: 3 }}>
           {/* Email */}
           <Box display="flex" alignItems="center" mb={2}>
@@ -81,8 +74,6 @@ export default function ProfilePage() {
           </Box>
 
           <Divider sx={{ my: 2 }} />
-
-          {/* Имя и фамилия */}
           <Box display="flex" flexDirection="column" gap={2}>
             <Box display="flex" alignItems="center">
               <PersonIcon color="primary" sx={{ mr: 2 }} />
@@ -108,8 +99,6 @@ export default function ProfilePage() {
               </Box>
             </Box>
           </Box>
-
-          {/* Статус (опционально) */}
           <Box sx={{ mt: 3 }}>
             <Divider sx={{ mb: 2 }} />
             <Box display="flex" justifyContent="center">

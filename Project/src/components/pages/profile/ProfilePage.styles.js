@@ -1,4 +1,3 @@
-// ProfilePage.styles.js
 import styled from 'styled-components';
 
 export const ProfileContainer = styled.div`

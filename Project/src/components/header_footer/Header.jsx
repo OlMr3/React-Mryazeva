@@ -22,16 +22,12 @@ import {
 const Header = memo(function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log('=== Header rendering ===', Date.now());
   const isAuth = useSelector(selectIsAuth);
-  console.log('isAuth:', isAuth, 'reference:', selectIsAuth);
   const userData = useSelector(selectUserData);
   const totalQuantity = useSelector(selectCartQuantity);
-  console.log('totalQuantity:', totalQuantity);
   const handleSearchSubmit = useCallback((event) => {
     if (event.key === "Enter") {
       const searchTerm = event.target.value.trim();
-      console.log("Search for:", searchTerm);
 
       dispatch(setSearchQuery(searchTerm));
       navigate(`/catalog?search=${encodeURIComponent(searchTerm)}&page=1`);

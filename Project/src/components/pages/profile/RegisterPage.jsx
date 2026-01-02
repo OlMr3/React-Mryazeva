@@ -11,13 +11,11 @@ import {
   Link,
   CircularProgress
 } from '@mui/material';
-// Импортируем наш thunk
-import { registerUser } from '../../../store/slices/authThunks'; // Убедитесь, что путь правильный!
+import { registerUser } from '../../../store/slices/authThunks'; 
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Используем правильные селекторы из вашего слайса
   const { isLoading, error } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
@@ -34,29 +32,21 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Простая валидация на клиенте
     if (formData.password !== formData.confirmPassword) {
       alert('Пароли не совпадают!');
       return;
     }
-
-    // Формируем объект для отправки, соответствующий сигнатуре thunk
-    // Ваш thunk ожидает { email, password, displayName }
     const userData = {
       email: formData.email,
       password: formData.password,
-      displayName: formData.username // 'username' из формы -> 'displayName' для Firebase
+      displayName: formData.username 
     };
 
-    // Диспатчим thunk и ждем результат
     const resultAction = await dispatch(registerUser(userData));
-    
-    // Если регистрация успешна (fulfilled)
+
     if (registerUser.fulfilled.match(resultAction)) {
-      // Перенаправляем пользователя, например, на главную страницу
       navigate('/');
     }
-    // Если регистрация провалилась (rejected), ошибка автоматически попадет в state.auth.error
   };
 
   return (
@@ -74,7 +64,6 @@ const RegisterPage = () => {
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          {/* Отображение ошибки из Redux state */}
           {error && <Alert severity="error">{error}</Alert>}
 
           <TextField
@@ -88,7 +77,7 @@ const RegisterPage = () => {
             autoFocus
             value={formData.username}
             onChange={handleChange}
-            disabled={isLoading} // Используем isLoading
+            disabled={isLoading} 
           />
           <TextField
             margin="normal"
@@ -100,7 +89,7 @@ const RegisterPage = () => {
             autoComplete="email"
             value={formData.email}
             onChange={handleChange}
-            disabled={isLoading} // Используем isLoading
+            disabled={isLoading}
           />
           <TextField
             margin="normal"
@@ -113,7 +102,7 @@ const RegisterPage = () => {
             autoComplete="new-password"
             value={formData.password}
             onChange={handleChange}
-            disabled={isLoading} // Используем isLoading
+            disabled={isLoading} 
           />
           <TextField
             margin="normal"
@@ -126,14 +115,14 @@ const RegisterPage = () => {
             autoComplete="new-password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            disabled={isLoading} // Используем isLoading
+            disabled={isLoading} 
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={isLoading} // Используем isLoading
+            disabled={isLoading} 
           >
             {isLoading ? <CircularProgress size={24} /> : 'Зарегистрироваться'}
           </Button>

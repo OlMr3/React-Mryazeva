@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
-import LoginForm from './LoginForm'; // Компонент с формой мы создадим следующим шагом
+import LoginForm from './LoginForm'; 
 
 const LoginPage = () => {
   return (
@@ -16,7 +16,6 @@ const LoginPage = () => {
         <Typography component="h1" variant="h5">
           Вход в аккаунт
         </Typography>
-        {/* Сюда мы вставим форму */}
         <LoginForm />
       </Box>
     </Container>
