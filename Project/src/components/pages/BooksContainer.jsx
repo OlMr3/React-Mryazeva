@@ -1,0 +1,72 @@
+// components/BooksContainer.jsx
+/*import React from 'react';
+import { Box } from '@mui/material';
+import BookCard from './BookCard';
+//import { useBooksLogicLoad } from '../../hooks/useBooksLogicLoad';
+
+const BooksContainer = ({ books, onBookClick, onAddToCart }) => {
+  console.log('render');
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 4,
+        justifyContent: 'center'
+      }}
+    >
+      {books.map((book) => (
+        <BookCard
+          key={book.id}
+          book={book}
+          onCardClick={() => onBookClick(book.id)}
+          onAddToCart={() => onAddToCart(book.id)}
+        />
+      ))}
+    </Box>
+  );
+};
+
+export default BooksContainer;*/
+
+import React, { memo } from 'react';
+import { Box } from '@mui/material';
+import BookCard from './bookCard';
+import { BooksContainerStyles } from './styles/BooksContainer.styles';
+
+const BooksContainer = memo(({ books, onBookClick, onAddToCart, isLoading }) => {
+
+    if (isLoading) {
+        return (
+            <Box sx={BooksContainerStyles.container}>
+               
+                {[...Array(8)].map((_, index) => (
+                    <Box key={index} sx={BooksContainerStyles.skeleton}>
+                       
+                    </Box>
+                ))}
+            </Box>
+        );
+    }
+
+    return (
+        <Box sx={BooksContainerStyles.container}>
+            {books.map((book) => (
+                <BookCard
+                    key={book.id}
+                    book={book}
+                    onCardClick={onBookClick}
+                    onAddToCart={onAddToCart}
+                />
+            ))}
+        </Box>
+    );
+});
+
+export default BooksContainer;
+
+
+
+
+
+
