@@ -1,12 +1,10 @@
 import React, { memo, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
-Menu,
 MenuItem,
 useMediaQuery,
 useTheme,
 IconButton,
-Box,
 } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -24,7 +22,6 @@ import { useDispatch } from 'react-redux';
 import { setGenre, setPage } from '../../store/slices/filterSlice';
 import { useFilterSync } from '../../hooks/useFilterSync';
 
-// Мемоизированный компонент
 const NavigationMenu = memo(function NavigationMenu() {
 const theme = useTheme();
 const isMobile = useMediaQuery(theme.breakpoints.down("md"));

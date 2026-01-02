@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 const initialState = {
-  items: [], // Массив товаров { id, name, price, quantity, image, ... }
+  items: [], 
   isLoading: false,
   error: null,
 };
@@ -46,7 +46,6 @@ export const cartSlice = createSlice({
   },
 });
 
-// Экспортируем экшены для использования в компонентах
 export const { 
   setCartLoading, 
   setCart, 
@@ -57,13 +56,12 @@ export const {
   setCartError 
 } = cartSlice.actions;
 
-// Селекторы
 export const selectCartItems = (state) => state.cart.items;
 export const selectCartTotal = createSelector(
   [selectCartItems],
   items => {
     const total = items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    return Number(total.toFixed(2)); // Округляем здесь
+    return Number(total.toFixed(2)); 
   }
 );
 export const selectCartQuantity = createSelector(

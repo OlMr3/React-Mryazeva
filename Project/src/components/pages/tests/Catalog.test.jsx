@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 
-// Мокаем хуки
 vi.mock('../../../hooks/useBooksLogicLoad', () => ({
   useBooksLogicLoad: vi.fn()
 }));
@@ -19,15 +18,14 @@ vi.mock('../../../hooks/useFilterSync', () => ({
   useFilterSync: vi.fn()
 }));
 
-// Импортируем моки
+
 import { useBooksLogicLoad } from '../../../hooks/useBooksLogicLoad';
 import { useBookFilters, GENRE_MAPPING } from '../../../hooks/useBookFilters';
 import { useFilterSync } from '../../../hooks/useFilterSync';
 
-// Импортируем компонент
 import Catalog from '../Catalog';
 
-describe('Catalog компонента (обновленный)', () => {
+describe('Catalog компонента', () => {
   const mockBooks = [
     { id: 1, title: 'Book 1', author: 'Author 1', price: 29.99, image: 'book1.jpg', genre: 'fiction', description: 'Desc 1' },
     { id: 2, title: 'Book 2', author: 'Author 2', price: 19.99, image: 'book2.jpg', genre: 'fiction', description: 'Desc 2' },
@@ -57,12 +55,11 @@ describe('Catalog компонента (обновленный)', () => {
     }
   });
 
-  // Общая функция для рендера с фильтрами
   const renderCatalog = (filterState = {}) => {
-    // Мокаем хуки
+ 
     useBooksLogicLoad.mockReturnValue({ ...mockLogicLoad });
     useBookFilters.mockReturnValue(mockBooks);
-    // Ключевой момент — при отсутствии фильтров задаем их явно
+ 
     const filters = filterState.filters || { genre: null, searchQuery: null, page: 1 };
     useFilterSync.mockReturnValue({ filters, updateURL: vi.fn() });
 
@@ -88,25 +85,25 @@ describe('Catalog компонента (обновленный)', () => {
   });
 
   test('при отсутствии фильтров не отображается блок активных фильтров', () => {
-    // Мокаем так, чтобы filters были null
+   
     useFilterSync.mockReturnValue({
       filters: { genre: null, searchQuery: null, page: 1 },
       updateURL: vi.fn()
     });
-    // Передаем пустой объект — он заменит default filters
+    
     renderCatalog({ filters: { genre: null, searchQuery: null, page: 1 } });
     expect(screen.queryByText(/Активные фильтры:/)).not.toBeInTheDocument();
   });
 
   test('отображает книги', () => {
-    renderCatalog(); // по умолчанию — без активных фильтров
+    renderCatalog(); 
     expect(screen.getByText('Book 1')).toBeInTheDocument();
     expect(screen.getByText('Book 2')).toBeInTheDocument();
     expect(screen.getByText('Book 3')).toBeInTheDocument();
   });
 
   test('при наличии активных фильтров и более 1 страницы показывает пагинацию', () => {
-    // Создаем мок данных более 10 книг для пагинации
+    
     const largeBooks = Array.from({ length: 12 }, (_, i) => ({
       id: i + 1,
       title: `Book ${i + 1}`,
@@ -128,7 +125,7 @@ describe('Catalog компонента (обновленный)', () => {
       </Provider>
     );
 
-    // Пагинация должна отображаться
+    
     expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 });

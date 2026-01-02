@@ -6,42 +6,38 @@ import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import BookPage from '../BookPage'
 
-// Создаем мокированные функции
 const mockNavigate = vi.fn()
 const mockDispatch = vi.fn()
 const mockUseSelector = vi.fn()
 
-// Мокирование react-router-dom
 vi.mock('react-router-dom', () => ({
   useParams: vi.fn(() => ({ bookId: 'test-book-123' })),
   useNavigate: () => mockNavigate,
   BrowserRouter: ({ children }) => <div>{children}</div>
 }))
 
-// Мокирование react-redux
+
 vi.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
   useSelector: () => mockUseSelector(),
   Provider: ({ children, store }) => <div>{children}</div>
 }))
 
-// Мокирование Firebase
 vi.mock('../../../firebase', () => ({
   db: {},
   storage: {}
 }))
 
-// Мокирование firebaseThunks - НЕ НУЖНО, так как логика в useBookLogic
+
 vi.mock('../../../store/slices/firebaseThunks', () => ({
   fetchBookById: vi.fn()
 }))
 
-// Мокирование хука useBookLogic
 vi.mock('../../../hooks/useBookLogic', () => ({
   useBookLogic: vi.fn()
 }))
 
-// Импортируем мок после мокирования
+
 import { useBookLogic as mockUseBookLogic } from '../../../hooks/useBookLogic'
 
 const createMockStore = (initialState = {}) => {
@@ -50,7 +46,6 @@ const createMockStore = (initialState = {}) => {
   })
 }
 
-// Создаем тему для Material-UI
 const theme = createTheme()
 
 const renderWithProviders = (component, initialState = {}) => {
@@ -69,8 +64,7 @@ const renderWithProviders = (component, initialState = {}) => {
 describe('BookPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    
-    // Настраиваем мок useBookLogic для возврата стандартных значений
+   
     mockUseBookLogic.mockReturnValue({
       currentBook: null,
       loading: false,
@@ -84,7 +78,6 @@ describe('BookPage', () => {
     it('должен вызывать useBookLogic с правильным bookId', () => {
       renderWithProviders(<BookPage />)
       
-      // Проверяем что useBookLogic был вызван с правильными параметрами
       expect(mockUseBookLogic).toHaveBeenCalledWith('test-book-123')
     })
   })
@@ -192,7 +185,7 @@ describe('BookPage', () => {
     it('должен отображать рейтинг и количество отзывов', () => {
       renderWithProviders(<BookPage />)
       
-      // Рейтинг отображается как набор звезд, можно проверить по атрибуту
+     
       const ratingElement = screen.getByRole('img', { name: /4\.5/ })
       expect(ratingElement).toBeInTheDocument()
       expect(screen.getByText('(10 отзывов)')).toBeInTheDocument()

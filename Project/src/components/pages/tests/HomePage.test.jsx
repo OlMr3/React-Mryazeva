@@ -7,13 +7,11 @@ import { describe, test, expect, vi, beforeEach } from 'vitest';
 import HomePage from '../HomePage';
 import collectionsReducer from '../../../store/slices/firebaseSlice';
 
-// Правильное мокирование
 const mockUseBooksLogicLoad = vi.fn();
 const mockHandleBookClick = vi.fn();
 const mockHandleAddToCart = vi.fn();
 const mockDispatch = vi.fn();
 
-// Мокаем useDispatch перед всеми тестами
 vi.mock('react-redux', async () => {
 const actual = await vi.importActual('react-redux');
 return {
@@ -245,7 +243,7 @@ renderWithProviders(store);
  waitFor(() => {
       expect(mockDispatch).toHaveBeenCalled()
     })
-  // Дополнительная проверка что компонент отрендерился
+
   expect(screen.getByTestId('carousel')).toBeInTheDocument();
 });
 });
