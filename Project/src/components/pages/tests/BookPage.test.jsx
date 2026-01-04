@@ -65,6 +65,7 @@ describe('BookPage', () => {
       handleBack: vi.fn(),
       handleHome: vi.fn()
     })
+    mockUseSelector.mockReturnValue({ books: [], loading: false, error: null });
   })
 
   describe('Начальная загрузка', () => {

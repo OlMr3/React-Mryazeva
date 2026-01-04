@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { fetchBooks } from '../store/slices/firebaseThunks';
 import { addItem } from '../store/slices/cartSlice';
-import { saveCartToFirestore } from '../store/slices/cartThunks';
+import { saveCartToFirestore, addItemToCart } from '../store/slices/cartThunks';
 import { useEffect, useCallback, useRef, useMemo,} from 'react';
 import { selectUserData, selectIsInitialized } from '../store/slices/authSlice';
 
@@ -69,14 +69,14 @@ export const useBooksLogicLoad = () => {
   const handleAddToCart = useCallback(async (bookId) => {
     const book = books.find(b => b.id === bookId);
     if (book) {
-      dispatch(addItem({
-        id: book.id,
-        title: book.title,
-        author: book.author,
-        price: book.price,
-        image: book.coverImage,
-        quantity: 1
-      }));
+    const item = {
+       id: book.id, 
+       title: book.title, 
+       author: book.author, 
+       price: book.price, 
+       image: book.coverImage, 
+       quantity: 1 };
+      dispatch(addItemToCart(user?.uid, item));
       
       if (user?.uid) {
         dispatch(saveCartToFirestore(user.uid));

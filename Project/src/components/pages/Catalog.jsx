@@ -8,6 +8,7 @@ import { useBookFilters, GENRE_MAPPING } from '../../hooks/useBookFilters';
 import { useFilterSync } from '../../hooks/useFilterSync';
 import { useNavigate } from 'react-router-dom';
 import { CatalogStyles } from './styles/Catalog.styles';
+import { bookPageStyles } from './styles/BookPage.styles'
 
 const Catalog = memo(() => {
     const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const Catalog = memo(() => {
             dispatch(setPage(newPage));
             updateURL({ ...filters, page: newPage });
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            console.log('handlePageChange вызван');
+
         }
     };
 
@@ -45,7 +46,7 @@ const Catalog = memo(() => {
 
     return (
         <Container maxWidth="lg" sx={CatalogStyles.container}>
-           
+
             {hasActiveFilters && (
                 <Box sx={CatalogStyles.filterBox}>
                     <Typography variant="h6">Активные фильтры:</Typography>
@@ -57,7 +58,7 @@ const Catalog = memo(() => {
                     {filters.searchQuery && (
                         <Typography variant="body1">• Поиск: "{filters.searchQuery}"</Typography>
                     )}
-                    <Button variant="outlined" onClick={handleClearFilter}>
+                    <Button color='secondary' variant="outlined" onClick={handleClearFilter}>
                         Сбросить фильтры
                     </Button>
                 </Box>
@@ -70,7 +71,6 @@ const Catalog = memo(() => {
                 onAddToCart={handleAddToCart}
             />
 
-         
             {hasActiveFilters && totalPages > 1 && (
                 <Box sx={CatalogStyles.paginationBox}>
                     <Pagination
@@ -81,6 +81,21 @@ const Catalog = memo(() => {
                     />
                 </Box>
             )}
+
+               <Box sx={{ ...bookPageStyles.actionButtons, mt: 3 }}>
+                <Button
+                    variant="contained"
+                    size="large"
+                    color="secondary"
+                    sx={bookPageStyles.actionButton}
+                    onClick={() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                >
+                    Вверх
+                </Button>
+            </Box>
+
         </Container>
     );
 });

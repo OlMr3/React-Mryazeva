@@ -6,9 +6,11 @@ import {
   removeItem,
   clearCart
 } from '../../store/slices/cartSlice';
+import { clearGuestCart, saveGuestCart } from '../../store/slices/guestCartStorage';
 import { 
   saveCartToFirestore, 
-  updateItemQuantityWithSave 
+  updateItemQuantityWithSave,
+  removeItemWithSave 
 } from '../../store/slices/cartThunks'; 
 import { selectUserData } from '../../store/slices/authSlice';
 import {
@@ -40,16 +42,27 @@ const CartPage = () => {
   const cartTotal = useSelector(selectCartTotal);
   const user = useSelector(selectUserData);
   const [removingItems, setRemovingItems] = useState({});
+
   const handleRemoveItem = useCallback((itemId) => {
     setRemovingItems(prev => ({ ...prev, [itemId]: true }));
     setTimeout(() => {
-      dispatch(removeItem(itemId));
-      user?.uid && dispatch(saveCartToFirestore(user.uid));
+      dispatch(removeItemWithSave(user?.uid, itemId));
+      setRemovingItems(prev => { const newState = { ...prev }; 
+        delete newState[itemId]; 
+        return newState; });
+      /*if (user?.uid) {
+      dispatch(saveCartToFirestore(user.uid));
+    } else {
+      const state = store.getState(); // понадобится доступ к стору
+      saveGuestCart(state.cart); // сохраняем обновлённую корзину гостя
+    }
+
+     // user?.uid && dispatch(saveCartToFirestore(user.uid));
       setRemovingItems(prev => {
         const newState = { ...prev };
         delete newState[itemId];
         return newState;
-      });
+      });*/
     }, 300);
   }, [dispatch, user?.uid]); 
 
@@ -69,8 +82,15 @@ const CartPage = () => {
     
     setTimeout(() => {
       dispatch(clearCart());
-      user?.uid && dispatch(saveCartToFirestore(user.uid));
-      setRemovingItems({});
+      if (user?.uid) {
+      dispatch(saveCartToFirestore(user.uid));
+    } else {
+      clearGuestCart(); // очищаем localStorage для гостя
+    }
+    setRemovingItems({});
+
+     // user?.uid && dispatch(saveCartToFirestore(user.uid));
+     // setRemovingItems({});
     }, 300);
   }, [dispatch, user?.uid, cartItems]);
 

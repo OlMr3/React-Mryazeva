@@ -1,7 +1,8 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { setUser, setInitialized, clearUser } from './authSlice';
-import { fetchUserCart } from './cartThunks';
+import { fetchUserCart, mergeGuestCartWithServer } from './cartThunks';
+import { clearGuestCart } from './guestCartStorage';
 
 export const setupAuthListener = (dispatch) => {
   return onAuthStateChanged(auth, (user) => {
@@ -13,9 +14,10 @@ export const setupAuthListener = (dispatch) => {
       };
       dispatch(setUser(userData)); 
       dispatch(fetchUserCart(user.uid));
-      
+       dispatch(mergeGuestCartWithServer(user.uid));
     } else {
       dispatch(clearUser()); 
+       //clearGuestCart();
     }
     dispatch(setInitialized(true));
   });
