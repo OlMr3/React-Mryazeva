@@ -34,6 +34,7 @@ const Catalog = memo(() => {
             dispatch(setPage(newPage));
             updateURL({ ...filters, page: newPage });
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            console.log('handlePageChange вызван');
         }
     };
 

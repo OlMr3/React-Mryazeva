@@ -7,7 +7,6 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase';
 
-// Асинхронное действие для регистрации
 export const registerUser = createAsyncThunk(
   'auth/register',
   async ({ email, password, displayName }, { rejectWithValue }) => {
@@ -30,7 +29,6 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-// Асинхронное действие для входа
 export const loginUser = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
@@ -49,7 +47,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// Асинхронное действие для выхода
 export const logoutUser = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {

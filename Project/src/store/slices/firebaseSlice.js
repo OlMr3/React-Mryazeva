@@ -39,7 +39,6 @@ const collectionsSlice = createSlice({
         state.books.error = null;
       })
      .addCase(fetchBooks.fulfilled, (state, action) => {
-  console.log('📚 REDUCER: fetchBooks.fulfilled');
   
   state.books.loading = false;
   
@@ -48,11 +47,9 @@ const collectionsSlice = createSlice({
   
   if (currentBooks.length > 0 && 
       JSON.stringify(currentBooks) === JSON.stringify(newBooks)) {
-    console.log('✅ REDUCER: Данные идентичны - сохраняем ссылку');
     return;
   }
-  
-  console.log('🔄 REDUCER: Данные новые или изменились - обновляем');
+
   state.books.data = newBooks;
 
 })

@@ -3,7 +3,6 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { Provider } from 'react-redux'
 import BookCard from '../bookCard'
 
-// Простой мок store
 const createMockStore = (cartItems = []) => ({
   getState: () => ({ cart: { items: cartItems } }),
   subscribe: () => {},

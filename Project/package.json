@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-     "test": "vitest",
+    "test": "vitest",
     "test:run": "vitest run"
   },
   "dependencies": {
@@ -26,9 +26,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.69.0",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.11.0",
-    "swr": "^2.2.2",
-    "use-debounce": "^10.0.6"
+    "react-router-dom": "^7.11.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

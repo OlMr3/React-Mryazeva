@@ -30,7 +30,6 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Обработка регистрации
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -44,7 +43,6 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Обработка входа
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -58,7 +56,6 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Обработка выхода
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -75,7 +72,6 @@ export const authSlice = createSlice({
 });
 
 export const { clearError, setUser, clearUser, setInitialized } = authSlice.actions;
-
 export const selectUserData = (state) => state.auth.userData;
 export const selectIsAuth = (state) => state.auth.isAuth;
 export const selectIsLoading = (state) => state.auth.isLoading;

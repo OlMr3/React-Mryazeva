@@ -16,27 +16,20 @@ vi.mock('react-router-dom', () => ({
   BrowserRouter: ({ children }) => <div>{children}</div>
 }))
 
-
-vi.mock('react-redux', () => ({
-  useDispatch: () => mockDispatch,
-  useSelector: () => mockUseSelector(),
-  Provider: ({ children, store }) => <div>{children}</div>
-}))
-
-vi.mock('../../../firebase', () => ({
-  db: {},
-  storage: {}
-}))
-
-
-vi.mock('../../../store/slices/firebaseThunks', () => ({
-  fetchBookById: vi.fn()
-}))
+vi.mock('react-redux', () => {
+  const actual = vi.importActual('react-redux');
+  return {
+    ...actual,
+    shallowEqual: actual.shallowEqual,
+    useDispatch: () => mockDispatch,
+    useSelector: () => mockUseSelector(),
+    Provider: ({ children }) => <div>{children}</div>
+  };
+});
 
 vi.mock('../../../hooks/useBookLogic', () => ({
   useBookLogic: vi.fn()
 }))
-
 
 import { useBookLogic as mockUseBookLogic } from '../../../hooks/useBookLogic'
 
@@ -195,7 +188,7 @@ describe('BookPage', () => {
       renderWithProviders(<BookPage />)
       
       expect(screen.getByRole('button', { name: 'Добавить в корзину' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'В избранное' })).toBeInTheDocument()
+     
     })
 
     it('должен возвращаться назад при клике на кнопку "Назад"', () => {

@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, { memo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -10,8 +10,8 @@ import {
   Rating
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useBookLogic } from '../../hooks/useBookLogic'; 
-import {useBooksLogicLoad} from '../../hooks/useBooksLogicLoad';
+import { useBookLogic } from '../../hooks/useBookLogic';
+import { useBooksLogicLoad } from '../../hooks/useBooksLogicLoad';
 import { bookPageStyles } from './styles/BookPage.styles';
 
 const BookPage = memo(() => {
@@ -23,7 +23,7 @@ const BookPage = memo(() => {
   if (loading) {
     return <div>Загрузка...</div>;
   }
- 
+
   if (error) {
     return (
       <Container maxWidth="md" sx={bookPageStyles.errorContainer}>
@@ -34,8 +34,8 @@ const BookPage = memo(() => {
           <Typography variant="body1" sx={bookPageStyles.errorText}>
             {error}
           </Typography>
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             onClick={handleHome}
             startIcon={<ArrowBackIcon />}
             sx={bookPageStyles.actionButton}
@@ -46,7 +46,7 @@ const BookPage = memo(() => {
       </Container>
     );
   }
-  
+
   if (!currentBook) {
     return (
       <Container maxWidth="md" sx={bookPageStyles.errorContainer}>
@@ -57,8 +57,8 @@ const BookPage = memo(() => {
           <Typography variant="body1" sx={bookPageStyles.errorText}>
             Извините, запрашиваемая книга не существует или была удалена.
           </Typography>
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             onClick={handleHome}
             startIcon={<ArrowBackIcon />}
             sx={bookPageStyles.actionButton}
@@ -92,13 +92,13 @@ const BookPage = memo(() => {
             sx={bookPageStyles.coverImage}
           />
         </Box>
-        
+
         <Box sx={bookPageStyles.infoContainer}>
           <Box sx={bookPageStyles.titleSection}>
             <Typography variant="h4" component="h1" sx={bookPageStyles.title}>
               {currentBook.title}
             </Typography>
-            
+
             <Typography variant="h6" sx={bookPageStyles.author}>
               Автор: {currentBook.author}
             </Typography>
@@ -110,9 +110,9 @@ const BookPage = memo(() => {
               </Typography>
             </Box>
 
-            <Chip 
-              label={currentBook.genre || 'Художественная литература'} 
-              color="secondary" 
+            <Chip
+              label={currentBook.genre || 'Художественная литература'}
+              color="secondary"
               sx={{ mb: 2 }}
             />
           </Box>
@@ -131,31 +131,24 @@ const BookPage = memo(() => {
               <Typography variant="h4" sx={bookPageStyles.price}>
                 {currentBook.price} BYN.
               </Typography>
-              <Chip 
-                label="В наличии" 
-                color="success" 
-                variant="outlined" 
+              <Chip
+                label="В наличии"
+                color="success"
+                variant="outlined"
               />
             </Box>
 
             <Box sx={bookPageStyles.actionButtons}>
-              <Button 
-                variant="contained" 
-                size="large" 
-                color="secondary"
-                sx={bookPageStyles.actionButton}
-                 onClick={() => {handleAddToCart(bookId);
-  }}
-              >
-                Добавить в корзину
-              </Button>
-              <Button 
-                variant="outlined" 
+              <Button
+                variant="contained"
                 size="large"
                 color="secondary"
                 sx={bookPageStyles.actionButton}
+                onClick={() => {
+                  handleAddToCart(bookId);
+                }}
               >
-                В избранное
+                Добавить в корзину
               </Button>
             </Box>
           </Box>

@@ -4,14 +4,14 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2', // синий
+      main: '#1976d2',
     },
     secondary: {
-      main: '#9c27b0', // фиолетовый
-      dark: '#7b1fa2', // темно-фиолетовый
+      main: '#9c27b0', 
+      dark: '#7b1fa2', 
     },
     background: {
-      default: '#fdf9f9' // Добавляем фоновый цвет здесь
+      default: '#fdf9f9' 
     }
   },
   components: {
@@ -28,7 +28,6 @@ const theme = createTheme({
         }
       }
     },
-    // Опционально: можете добавить для MuiCssBaseline
     MuiCssBaseline: {
       styleOverrides: {
         body: {
