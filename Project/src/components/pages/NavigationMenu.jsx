@@ -1,5 +1,5 @@
-import React, { memo, useState, useCallback, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { memo, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import {
   MenuItem,
   useMediaQuery,
@@ -18,43 +18,16 @@ import {
   MegaMenuTitle,
   BoxMobile,
 } from "./styles/NavigationMenu.styles";
-import { useDispatch } from 'react-redux';
-import { setGenre, setPage } from '../../store/slices/filterSlice';
-//import { useFilterSync } from '../../hooks/useFilterSync';
 
 const NavigationMenu = memo(function NavigationMenu() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const dispatch = useDispatch();
-
- // const { filters, updateURL } = useFilterSync();
-  //const navigate = useNavigate();
-
   const [fictionAnchor, setFictionAnchor] = useState(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const handleMobileMenuToggle = useCallback(() => {
     setMobileMenuOpen((prev) => !prev);
   }, []);
-
-  /*const handleGenreSelect = useCallback((genre) => {
-    const newFilters = {
-      ...filters,
-      genre: genre,
-      page: 1
-    };
-    console.log('handleGenreSelect вызван');
-
-    dispatch(setGenre(genre));
-    dispatch(setPage(1));
-    updateURL(newFilters);
-   
-
-    if (isMobile) {
-      setMobileMenuOpen(false);
-    }
-  }, [filters, dispatch, updateURL, isMobile]);*/
 
   const handleFictionHover = useCallback((event) => {
     if (!isMobile) {
@@ -115,7 +88,6 @@ const NavigationMenu = memo(function NavigationMenu() {
               <MegaMenuColumn>
                 <MegaMenuTitle
                   to="/catalog/classic"
-                 //onChange={() => handleGenreSelect('classic')}
                 >
                   Классическая литература
                 </MegaMenuTitle>
@@ -123,7 +95,6 @@ const NavigationMenu = memo(function NavigationMenu() {
               <MegaMenuColumn>
                 <MegaMenuTitle
                   to="/catalog/fantasy"
-                  //onChange={() => handleGenreSelect('fantasy')}
                 >
                   Фэнтези
                 </MegaMenuTitle>
@@ -131,7 +102,6 @@ const NavigationMenu = memo(function NavigationMenu() {
               <MegaMenuColumn>
                 <MegaMenuTitle
                   to="/catalog/detective"
-                 // onChange={() => handleGenreSelect('detective')}
                 >
                   Детективы и триллеры
                 </MegaMenuTitle>
@@ -142,7 +112,6 @@ const NavigationMenu = memo(function NavigationMenu() {
         <NavItem>
           <NavLink
             to="/catalog/children"
-           // onChange={() => handleGenreSelect('children')}
           >
             Книги для детей
           </NavLink>

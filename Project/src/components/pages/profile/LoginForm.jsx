@@ -9,7 +9,7 @@ import {
   Link,
   CircularProgress
 } from '@mui/material';
-import { loginUser } from '../../../store/slices/authThunks'; 
+import { loginUser } from '../../../store/slices/authThunks';
 
 const LoginForm = () => {
   const dispatch = useDispatch();

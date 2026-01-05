@@ -1,9 +1,9 @@
 import { describe, test, expect, vi } from 'vitest';
-import { fetchBooks, fetchPromoSlides, fetchBookById } from '../firebaseThunks'; 
+import { fetchBooks, fetchPromoSlides, fetchBookById } from '../firebaseThunks';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 
 vi.mock('firebase/firestore', () => ({
-    getFirestore: vi.fn(() => ({})),
+  getFirestore: vi.fn(() => ({})),
   collection: vi.fn(),
   getDocs: vi.fn(),
   doc: vi.fn(),
@@ -11,7 +11,7 @@ vi.mock('firebase/firestore', () => ({
 }));
 
 describe('Firebase Thunks', () => {
-  
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -27,7 +27,7 @@ describe('Firebase Thunks', () => {
 
     const dispatch = vi.fn();
     const thunkApi = { rejectWithValue: vi.fn() };
-    const result = await fetchBooks()(dispatch, () => {}, thunkApi);
+    const result = await fetchBooks()(dispatch, () => { }, thunkApi);
     expect(collection).toHaveBeenCalledWith(expect.anything(), 'books');
     expect(getDocs).toHaveBeenCalledWith('booksCollection');
     expect(result.payload).toEqual([
@@ -45,7 +45,7 @@ describe('Firebase Thunks', () => {
     });
     const dispatch = vi.fn();
     const thunkApi = { rejectWithValue: vi.fn() };
-    const result = await fetchPromoSlides()(dispatch, () => {}, thunkApi);
+    const result = await fetchPromoSlides()(dispatch, () => { }, thunkApi);
     expect(collection).toHaveBeenCalledWith(expect.anything(), 'PromoSlides');
     expect(getDocs).toHaveBeenCalledWith('promoSlidesCollection');
     expect(result.payload).toEqual([
@@ -64,18 +64,18 @@ describe('Firebase Thunks', () => {
     getDoc.mockResolvedValue(mockDocSnap);
     const dispatch = vi.fn();
     const thunkApi = { rejectWithValue: vi.fn() };
-    const result = await fetchBookById(bookId)(dispatch, () => {}, thunkApi);
+    const result = await fetchBookById(bookId)(dispatch, () => { }, thunkApi);
     expect(doc).toHaveBeenCalledWith(expect.anything(), 'books', bookId);
     expect(getDoc).toHaveBeenCalledWith('docRef');
     expect(result.payload).toEqual({ id: 'book123', title: 'Название книги' });
   });
-test('fetchBookById - книга не найдена', async () => {
-  const bookId = 'unknown_id';
-  doc.mockReturnValue('docRef');
-  getDoc.mockResolvedValue({ exists: () => false });
-  const dispatch = vi.fn();
-  const result = await fetchBookById(bookId)(dispatch, () => {}, {});
-  expect(result.type).toBe('books/fetchBookById/rejected');
-  expect(result.payload).toBe('Книга не найдена');
-});
+  test('fetchBookById - книга не найдена', async () => {
+    const bookId = 'unknown_id';
+    doc.mockReturnValue('docRef');
+    getDoc.mockResolvedValue({ exists: () => false });
+    const dispatch = vi.fn();
+    const result = await fetchBookById(bookId)(dispatch, () => { }, {});
+    expect(result.type).toBe('books/fetchBookById/rejected');
+    expect(result.payload).toBe('Книга не найдена');
+  });
 });

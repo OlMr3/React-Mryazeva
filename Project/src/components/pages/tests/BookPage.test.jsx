@@ -57,7 +57,7 @@ const renderWithProviders = (component, initialState = {}) => {
 describe('BookPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-   
+
     mockUseBookLogic.mockReturnValue({
       currentBook: null,
       loading: false,
@@ -71,7 +71,7 @@ describe('BookPage', () => {
   describe('Начальная загрузка', () => {
     it('должен вызывать useBookLogic с правильным bookId', () => {
       renderWithProviders(<BookPage />)
-      
+
       expect(mockUseBookLogic).toHaveBeenCalledWith('test-book-123')
     })
   })
@@ -85,9 +85,9 @@ describe('BookPage', () => {
         handleBack: vi.fn(),
         handleHome: vi.fn()
       })
-      
+
       renderWithProviders(<BookPage />)
-      
+
       expect(screen.getByText('Загрузка...')).toBeInTheDocument()
     })
   })
@@ -101,9 +101,9 @@ describe('BookPage', () => {
         handleBack: vi.fn(),
         handleHome: vi.fn()
       })
-      
+
       renderWithProviders(<BookPage />)
-      
+
       expect(screen.getByText('Ошибка загрузки')).toBeInTheDocument()
       expect(screen.getByText('Ошибка сети: Не удалось загрузить книгу')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /На главную/ })).toBeInTheDocument()
@@ -118,9 +118,9 @@ describe('BookPage', () => {
         handleBack: vi.fn(),
         handleHome: mockHandleHome
       })
-      
+
       renderWithProviders(<BookPage />)
-      
+
       fireEvent.click(screen.getByRole('button', { name: /На главную/ }))
       expect(mockHandleHome).toHaveBeenCalled()
     })
@@ -135,9 +135,9 @@ describe('BookPage', () => {
         handleBack: vi.fn(),
         handleHome: vi.fn()
       })
-      
+
       renderWithProviders(<BookPage />)
-      
+
       expect(screen.getByText('Книга не найдена')).toBeInTheDocument()
       expect(screen.getByText(/Извините, запрашиваемая книга не существует или была удалена/)).toBeInTheDocument()
     })
@@ -168,7 +168,7 @@ describe('BookPage', () => {
 
     it('должен корректно отображать детали книги', () => {
       renderWithProviders(<BookPage />)
-      
+
       expect(screen.getByRole('heading', { name: 'Тестовая книга' })).toBeInTheDocument()
       expect(screen.getByText(/Автор: Тестовый автор/)).toBeInTheDocument()
       expect(screen.getByText('Фантастика')).toBeInTheDocument()
@@ -178,8 +178,8 @@ describe('BookPage', () => {
 
     it('должен отображать рейтинг и количество отзывов', () => {
       renderWithProviders(<BookPage />)
-      
-     
+
+
       const ratingElement = screen.getByRole('img', { name: /4\.5/ })
       expect(ratingElement).toBeInTheDocument()
       expect(screen.getByText('(10 отзывов)')).toBeInTheDocument()
@@ -187,9 +187,9 @@ describe('BookPage', () => {
 
     it('должен отображать кнопки действий', () => {
       renderWithProviders(<BookPage />)
-      
+
       expect(screen.getByRole('button', { name: 'Добавить в корзину' })).toBeInTheDocument()
-     
+
     })
 
     it('должен возвращаться назад при клике на кнопку "Назад"', () => {
@@ -201,9 +201,9 @@ describe('BookPage', () => {
         handleBack: mockHandleBack,
         handleHome: vi.fn()
       })
-      
+
       renderWithProviders(<BookPage />)
-      
+
       fireEvent.click(screen.getByRole('button', { name: 'Назад' }))
       expect(mockHandleBack).toHaveBeenCalled()
     })
@@ -219,7 +219,7 @@ describe('BookPage', () => {
         description: 'Описание книги',
         price: 500
       }
-      
+
       mockUseBookLogic.mockReturnValue({
         currentBook: mockBookWithMissingFields,
         loading: false,
@@ -227,9 +227,9 @@ describe('BookPage', () => {
         handleBack: vi.fn(),
         handleHome: vi.fn()
       })
-      
+
       renderWithProviders(<BookPage />)
-      
+
       expect(screen.getByRole('heading', { name: 'Тестовая книга' })).toBeInTheDocument()
       expect(screen.getByText(/Автор: Тестовый автор/)).toBeInTheDocument()
       expect(screen.getByText('Описание книги')).toBeInTheDocument()
@@ -238,15 +238,10 @@ describe('BookPage', () => {
     })
 
     it('не должен вызывать useBookLogic если bookId = undefined', () => {
-  // Просто проверяем, что useBookLogic вызывается с любыми параметрами
-  renderWithProviders(<BookPage />)
-  
-  // Проверяем что useBookLogic был вызван (это происходит всегда)
-  expect(mockUseBookLogic).toHaveBeenCalled()
-  
-  // Можно проверить что он был вызван с конкретным значением из мока
-  expect(mockUseBookLogic).toHaveBeenCalledWith('test-book-123')
-})
+      renderWithProviders(<BookPage />)
+      expect(mockUseBookLogic).toHaveBeenCalled()
+      expect(mockUseBookLogic).toHaveBeenCalledWith('test-book-123')
+    })
 
   })
 
@@ -275,7 +270,7 @@ describe('BookPage', () => {
 
     it('должен отображать обложку книги', () => {
       renderWithProviders(<BookPage />)
-      
+
       const image = screen.getByRole('img', { name: 'Тестовая книга' })
       expect(image).toBeInTheDocument()
       expect(image).toHaveAttribute('src', 'test-image.jpg')
@@ -283,7 +278,7 @@ describe('BookPage', () => {
 
     it('должен отображать статус "В наличии"', () => {
       renderWithProviders(<BookPage />)
-      
+
       expect(screen.getByText('В наличии')).toBeInTheDocument()
     })
   })

@@ -1,5 +1,5 @@
 import { describe, it, vi, beforeEach } from 'vitest';
-import { setupAuthListener } from '../authListener'; 
+import { setupAuthListener } from '../authListener';
 import { onAuthStateChanged } from 'firebase/auth';
 
 vi.mock('firebase/auth', () => {
@@ -36,7 +36,7 @@ describe('setupAuthListener', () => {
   it('вызывает правильные диспатчи при входе пользователя', () => {
     setupAuthListener(dispatch);
     const mockCall = onAuthStateChanged.mock.results.slice(-1)[0];
-    const { trigger } = mockCall.value; 
+    const { trigger } = mockCall.value;
     const user = {
       uid: '123',
       email: 'test@example.com',

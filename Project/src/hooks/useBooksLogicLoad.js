@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { fetchBooks } from '../store/slices/firebaseThunks';
-import { addItem } from '../store/slices/cartSlice';
 import { saveCartToFirestore, addItemToCart } from '../store/slices/cartThunks';
 import { useEffect, useCallback, useRef, useMemo,} from 'react';
 import { selectUserData, selectIsInitialized } from '../store/slices/authSlice';

@@ -8,10 +8,9 @@ const BooksContainer = memo(({ books, onBookClick, onAddToCart, isLoading }) => 
     if (isLoading) {
         return (
             <Box sx={BooksContainerStyles.container}>
-               
+
                 {[...Array(8)].map((_, index) => (
                     <Box key={index} sx={BooksContainerStyles.skeleton}>
-                       
                     </Box>
                 ))}
             </Box>

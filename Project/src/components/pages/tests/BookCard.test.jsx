@@ -5,8 +5,8 @@ import BookCard from '../bookCard'
 
 const createMockStore = (cartItems = []) => ({
   getState: () => ({ cart: { items: cartItems } }),
-  subscribe: () => {},
-  dispatch: () => {}
+  subscribe: () => { },
+  dispatch: () => { }
 })
 
 describe('BookCard', () => {
@@ -19,15 +19,13 @@ describe('BookCard', () => {
     genre: 'Fantasy',
     rating: 4.5
   }
-
   const mockOnCardClick = vi.fn()
   const mockOnAddToCart = vi.fn()
-
   const renderBookCard = (cartItems = []) => {
     return render(
       <Provider store={createMockStore(cartItems)}>
-        <BookCard 
-          book={mockBook} 
+        <BookCard
+          book={mockBook}
           onCardClick={mockOnCardClick}
           onAddToCart={mockOnAddToCart}
         />
@@ -35,7 +33,6 @@ describe('BookCard', () => {
     )
   }
 
-  // Очистка после каждого теста
   afterEach(() => {
     cleanup()
     vi.clearAllMocks()
@@ -68,7 +65,7 @@ describe('BookCard', () => {
 
   it('вызывает onCardClick при клике на карточку', () => {
     renderBookCard()
-    
+
     fireEvent.click(screen.getByAltText('Test Book'))
     expect(mockOnCardClick).toHaveBeenCalledWith('1')
   })
@@ -82,20 +79,9 @@ describe('BookCard', () => {
 
   it('не вызывает onAddToCart если книга уже в корзине', () => {
     renderBookCard([{ id: '1' }])
-
     const button = screen.getByText('В корзине')
-    
-    // Отладочная информация
-    console.log('Button disabled:', button.disabled)
-    console.log('Button HTML:', button.outerHTML)
-    
-    // Проверяем что кнопка действительно disabled
     expect(button).toBeDisabled()
-    
-    // Пытаемся кликнуть на disabled кнопку
     fireEvent.click(button)
-    
-    // Обработчик не должен вызываться
     expect(mockOnAddToCart).not.toHaveBeenCalled()
   })
 })

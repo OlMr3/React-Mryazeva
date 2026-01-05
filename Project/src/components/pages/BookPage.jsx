@@ -16,10 +16,8 @@ import { bookPageStyles } from './styles/BookPage.styles';
 
 const BookPage = memo(() => {
   const { bookId } = useParams();
-
   const { currentBook, loading, error, handleBack, handleHome } = useBookLogic(bookId);
   const { handleAddToCart } = useBooksLogicLoad();
-
   if (loading) {
     return <div>Загрузка...</div>;
   }

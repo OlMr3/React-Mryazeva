@@ -1,5 +1,4 @@
 export const bookCardStyles = {
-  // Контейнер карточки
   cardContainer: {
     width: {
       xs: '100%',
@@ -11,7 +10,6 @@ export const bookCardStyles = {
     maxWidth: '280px',
   },
 
-  // Карточка
   card: {
     height: '100%',
     display: 'flex',
@@ -24,13 +22,11 @@ export const bookCardStyles = {
     }
   },
 
-  // Контейнер изображения
   imageContainer: {
     position: 'relative',
     height: 300
   },
 
-  // Изображение книги
   cardMedia: {
     objectFit: 'contain',
     p: 1,
@@ -38,7 +34,6 @@ export const bookCardStyles = {
     height: '100%'
   },
 
-  // Чип жанра
   genreChip: {
     position: 'absolute',
     top: 16,
@@ -48,42 +43,35 @@ export const bookCardStyles = {
     fontWeight: 600
   },
 
-  // Контент карточки
   cardContent: {
     flexGrow: 1
   },
 
-  // Автор
   author: {
     mb: 1,
     noWrap: true
   },
 
-  // Контейнер рейтинга
   ratingContainer: {
     display: 'flex',
     alignItems: 'center',
     mb: 2
   },
 
-  // Текст рейтинга
   ratingText: {
     ml: 1
   },
 
-  // Контейнер цены и кнопки
   priceButtonContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
 
-  // Цена
   price: {
     color: 'secondary.main'
   },
 
-  // Кнопка корзины
   cartButton: {
     borderRadius: 5,
     backgroundColor: 'secondary.main',
@@ -94,7 +82,6 @@ export const bookCardStyles = {
     }
   },
 
-  // Кнопка "В корзине"
   inCartButton: {
     backgroundColor: 'transparent',
     color: 'secondary.main',

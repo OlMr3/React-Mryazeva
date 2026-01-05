@@ -161,8 +161,7 @@ error: null
 }
 });
 renderWithProviders(store);
-
-  expect(screen.getByText('Загрузка...')).toBeInTheDocument();
+expect(screen.getAllByTestId('loading-skeleton').length).toBe(8);
 });
 
 test('показывает загрузку при загрузке книг', () => {
@@ -177,7 +176,7 @@ test('показывает загрузку при загрузке книг', (
   const store = mockStore(initialState);
   renderWithProviders(store);
 
-  expect(screen.getByText('Загрузка...')).toBeInTheDocument();
+  expect(screen.getAllByTestId('loading-skeleton').length).toBe(8);
 });
 });
 

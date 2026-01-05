@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUserData, selectIsAuth } from '../../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +31,7 @@ export default function ProfilePage() {
   if (!isAuth) {
     return null;
   }
-    if (!userData) {
+  if (!userData) {
     return (
       <Container maxWidth="md" sx={{ py: 4, display: 'flex', justifyContent: 'center' }}>
         <CircularProgress />

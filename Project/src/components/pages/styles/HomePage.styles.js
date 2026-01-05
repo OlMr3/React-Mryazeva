@@ -1,4 +1,3 @@
-// styles/HomePage.styles.js
 export const homePageStyles = {
   container: {
     py: 8

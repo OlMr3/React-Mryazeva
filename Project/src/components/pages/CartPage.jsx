@@ -3,15 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectCartItems,
   selectCartTotal,
-  removeItem,
   clearCart
 } from '../../store/slices/cartSlice';
-import { clearGuestCart, saveGuestCart } from '../../store/slices/guestCartStorage';
-import { 
-  saveCartToFirestore, 
+import { clearGuestCart } from '../../store/slices/guestCartStorage';
+import {
+  saveCartToFirestore,
   updateItemQuantityWithSave,
-  removeItemWithSave 
-} from '../../store/slices/cartThunks'; 
+  removeItemWithSave
+} from '../../store/slices/cartThunks';
 import { selectUserData } from '../../store/slices/authSlice';
 import {
   Container,
@@ -47,24 +46,13 @@ const CartPage = () => {
     setRemovingItems(prev => ({ ...prev, [itemId]: true }));
     setTimeout(() => {
       dispatch(removeItemWithSave(user?.uid, itemId));
-      setRemovingItems(prev => { const newState = { ...prev }; 
-        delete newState[itemId]; 
-        return newState; });
-      /*if (user?.uid) {
-      dispatch(saveCartToFirestore(user.uid));
-    } else {
-      const state = store.getState(); // понадобится доступ к стору
-      saveGuestCart(state.cart); // сохраняем обновлённую корзину гостя
-    }
-
-     // user?.uid && dispatch(saveCartToFirestore(user.uid));
       setRemovingItems(prev => {
         const newState = { ...prev };
         delete newState[itemId];
         return newState;
-      });*/
+      });
     }, 300);
-  }, [dispatch, user?.uid]); 
+  }, [dispatch, user?.uid]);
 
   const handleQuantityChange = (itemId, newQuantity) => {
     if (newQuantity < 1) return;
@@ -77,20 +65,17 @@ const CartPage = () => {
       acc[item.id] = true;
       return acc;
     }, {});
-    
+
     setRemovingItems(itemIds);
-    
+
     setTimeout(() => {
       dispatch(clearCart());
       if (user?.uid) {
-      dispatch(saveCartToFirestore(user.uid));
-    } else {
-      clearGuestCart(); // очищаем localStorage для гостя
-    }
-    setRemovingItems({});
-
-     // user?.uid && dispatch(saveCartToFirestore(user.uid));
-     // setRemovingItems({});
+        dispatch(saveCartToFirestore(user.uid));
+      } else {
+        clearGuestCart();
+      }
+      setRemovingItems({});
     }, 300);
   }, [dispatch, user?.uid, cartItems]);
 
@@ -118,8 +103,8 @@ const CartPage = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           {cartItems.map((item) => (
-            <Collapse 
-              key={item.id} 
+            <Collapse
+              key={item.id}
               in={!removingItems[item.id]}
               timeout={300}
               unmountOnExit
@@ -154,18 +139,18 @@ const CartPage = () => {
 
                     <Grid item xs={12} sm={2}>
                       <Box sx={CartPageStyles.quantityControls}>
-                        <IconButton 
-                          size="small" 
+                        <IconButton
+                          size="small"
                           onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                           disabled={item.quantity <= 1}
                         >
                           <RemoveIcon />
                         </IconButton>
-                        
+
                         <Typography sx={{ mx: 1 }}>{item.quantity}</Typography>
-                        
-                        <IconButton 
-                          size="small" 
+
+                        <IconButton
+                          size="small"
                           onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                         >
                           <AddIcon />
@@ -174,8 +159,8 @@ const CartPage = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={2}>
-                      <IconButton 
-                        color="error" 
+                      <IconButton
+                        color="error"
                         onClick={() => handleRemoveItem(item.id)}
                         sx={CartPageStyles.deleteButton}
                       >
@@ -194,9 +179,9 @@ const CartPage = () => {
             <Typography variant="h6" gutterBottom>
               Итог заказа
             </Typography>
-            
+
             <Divider sx={{ my: 2 }} />
-            
+
             <Box sx={{ mb: 2 }}>
               <Typography variant="h5" color="secondary" gutterBottom>
                 Всего: {cartTotal} BYN.
@@ -206,8 +191,8 @@ const CartPage = () => {
               </Typography>
             </Box>
 
-           
-            
+
+
             <Button
               variant="outlined"
               color="error"

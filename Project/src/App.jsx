@@ -1,10 +1,9 @@
-import React, { useEffect, useState, } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Container } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadGuestCart } from './store/slices/guestCartStorage';
-import { setCart, selectCartItems } from './store/slices/cartSlice';
-import { hydrateGuestCartForInit, mergeGuestCartWithServer, fetchUserCart, loginCartMerge } from './store/slices/cartThunks';
+import { hydrateGuestCartForInit, loginCartMerge } from './store/slices/cartThunks';
 import { selectIsInitialized, selectIsAuth, selectUserData } from './store/slices/authSlice';
 import Header from './components/header_footer/Header';
 import HomePage from './components/pages/HomePage';
@@ -21,24 +20,15 @@ import { BooksContainerStyles } from './components/pages/styles/BooksContainer.s
 const App = () => {
   const isInitialized = useSelector(selectIsInitialized);
   const isAuth = useSelector(selectIsAuth);
-
   const user = useSelector(selectUserData);
-  const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [guestHasItems, setGuestHasItems] = useState(false);
 
-  useEffect(() => {
-    const guestCart = loadGuestCart();
-    const hasItems = Array.isArray(guestCart?.items) && guestCart.items.length > 0;
-    setGuestHasItems(hasItems);
-  }, []);
   useEffect(() => {
     const onBeforeUnload = (e) => {
       const cart = loadGuestCart();
       const hasItems = Array.isArray(cart?.items) && cart.items.length > 0;
       if (!isAuth && hasItems) {
-
         e.preventDefault();
         e.returnValue = '';
       }
@@ -47,34 +37,7 @@ const App = () => {
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [isAuth,]);
 
-  /*useEffect(() => { 
-   console.log('[beforeunload] attached');
-   const isReloadNavigation = () => {
-      try { 
-       const navEntries = performance.getEntriesByType?.('navigation'); 
-       if (navEntries && navEntries.length > 0) {
-          return navEntries[0].type === 'reload'; } 
-         } catch {
-            } return false; };
- 
- const onBeforeUnload = (e) => { 
-   const cart = loadGuestCart(); 
-   const hasItems = Array.isArray(cart?.items) && cart.items.length > 0;
- 
- if (!isAuth && hasItems && !isReloadNavigation()) {
-   e.preventDefault();
-   e.returnValue = '';
- }
- };
- 
- window.addEventListener('beforeunload', onBeforeUnload); 
- return () => window.removeEventListener('beforeunload', onBeforeUnload);
-  }, [isAuth]); */
-
-
-
   useEffect(() => {
-    console.log('[App] init flow', { isInitialized, isAuth, uid: user?.uid });
     if (!isInitialized) {
       if (isAuth && user?.uid) {
         dispatch(loginCartMerge(user.uid));
@@ -85,7 +48,9 @@ const App = () => {
   }, [isInitialized, isAuth, user?.uid, dispatch]);
 
   const renderGuestBanner = () => {
-    if (!isAuth && guestHasItems) {
+    const guestCart = loadGuestCart();
+    const hasGuestItems = Array.isArray(guestCart?.items) && guestCart.items.length > 0;
+    if (!isAuth && hasGuestItems) {
       return (<Alert
         severity="warning"
         sx={{ mt: 2, mb: 2 }}
@@ -135,21 +100,8 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/cart" element={<CartPage />} />
       </Routes>
-
     </Container>
   );
 };
 
 export default App;
-
-/* useEffect(() => {
-   if (!isInitialized) {
-     if (isAuth && user?.uid) {
-       dispatch(fetchUserCart(user.uid));
-       dispatch(mergeGuestCartWithServer(user.uid));
-     }
-     else {
-       dispatch(hydrateGuestCartForInit());
-     }
-   }
- }, [isInitialized, isAuth, user?.uid, dispatch]);*/

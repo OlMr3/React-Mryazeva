@@ -2,7 +2,11 @@ import { getDoc, setDoc } from 'firebase/firestore';
 import {
   setCartLoading,
   setCart,
-  setCartError
+  setCartError,
+  updateItemQuantity,
+  addItem,
+  clearCart,
+  removeItem 
 } from '../slices/cartSlice';
 import { getUserCartRef } from './cartFirebase';
 import { loadGuestCart, saveGuestCart, clearGuestCart } from './guestCartStorage';
@@ -14,7 +18,6 @@ const mergeCartItems = (serverItems, guestItems) => {
   serverItems.forEach((it) => map.set(it.id, { ...it }));
   guestItems.forEach((it) => {
     if (map.has(it.id)) {
-
       map.get(it.id).quantity = (map.get(it.id).quantity || 0) + (it.quantity || 0);
     } else {
 
@@ -24,8 +27,7 @@ const mergeCartItems = (serverItems, guestItems) => {
   return Array.from(map.values());
 };
 
-export const mergeGuestCartWithServer = (userId) => async (dispatch, getState) => {
-
+export const mergeGuestCartWithServer = (userId) => async (dispatch) => {
   if (!userId) return;
   const guestCart = loadGuestCart();
   const guestItems = guestCart.items || [];
@@ -42,28 +44,19 @@ export const mergeGuestCartWithServer = (userId) => async (dispatch, getState) =
     console.error("Ошибка при слиянии гостевой корзины с серверной:", error);
   }
 };
-export const loginCartMerge = (userId) => async (dispatch) => { 
-  try { if (!userId)
-     return; 
-     await dispatch(fetchUserCart(userId)); 
-     await dispatch(mergeGuestCartWithServer(userId)); 
-    }
-     catch (err) { 
-      console.error("Ошибка при входе и слиянии корзин:", err); 
-    } 
-  };
 
-/*export const hydrateGuestCartForInit = () => (dispatch, getState) => {
-
-  const isAuth = getState().auth?.isAuth;
-  if (!isAuth) {
-    const guest = loadGuestCart();
-    if (guest?.items?.length) {
-
-      dispatch(setCart(guest.items));
-    }
+export const loginCartMerge = (userId) => async (dispatch) => {
+  try {
+    if (!userId)
+      return;
+    await dispatch(fetchUserCart(userId));
+    await dispatch(mergeGuestCartWithServer(userId));
   }
-};*/
+  catch (err) {
+    console.error("Ошибка при входе и слиянии корзин:", err);
+  }
+};
+
 export const hydrateGuestCartForInit = () => (dispatch, getState) => {
   const isAuth = getState().auth?.isAuth;
   if (!isAuth) {
@@ -73,16 +66,12 @@ export const hydrateGuestCartForInit = () => (dispatch, getState) => {
     }
   }
   dispatch(setInitialized(true));
-  console.log('[hydrateGuest] loaded guest');
-  console.log('[merge] guestCart before merging');
 };
 
 export const fetchUserCart = (userId) => async (dispatch) => {
   if (!userId) return;
-
   dispatch(setCartLoading(true));
   dispatch(setCartError(null));
-
   try {
     const cartRef = getUserCartRef(userId);
     const cartSnap = await getDoc(cartRef);
@@ -115,65 +104,51 @@ export const saveCartToFirestore = (userId) => async (_, getState) => {
 };
 
 export const updateItemQuantityWithSave = (userId, id, quantity) => async (dispatch, getState) => {
-  const { updateItemQuantity } = await import('../slices/cartSlice');
   dispatch(updateItemQuantity({ id, quantity }));
   if (userId) {
     await dispatch(saveCartToFirestore(userId));
   } else {
-    const state = getState(); 
+    const state = getState();
     saveGuestCart(state.cart);
-    console.log("[guestCart] updateItemQuantityWithSave guest path called, state.cart:", state.cart); 
   }
 
 };
 
 export const addItemToCart = (userId, item) => async (dispatch, getState) => {
-  const { addItem } = await import('../slices/cartSlice');
   dispatch(addItem(item));
 
   if (userId) {
     await dispatch(saveCartToFirestore(userId));
   } else {
     const state = getState(); saveGuestCart(state.cart);
-    console.log("[guestCart] addItemToCart guest path called, state.cart:", state.cart);
   }
 };
 
-/*export const clearFirestoreCart = (userId) => async (dispatch) => {
-  if (!userId) return;
-
+export const clearFirestoreCart = (userId) => async (dispatch) => {
   try {
-    const { clearCart } = await import('../slices/cartSlice');
-    dispatch(clearCart());
-
-    const cartRef = getUserCartRef(userId);
-    await setDoc(cartRef, { items: [] });
+    if (userId) {
+      dispatch(clearCart());
+      const cartRef = getUserCartRef(userId);
+      await setDoc(cartRef, { items: [] });
+    } else {
+      clearGuestCart();
+      dispatch(setCart([]));
+    }
   } catch (error) {
     console.error("Ошибка при очистке корзины:", error);
   }
-};*/
+};
 
-
-export const clearFirestoreCart = (userId) => async (dispatch) => { 
-  try { if (userId) {
-const { clearCart } = await import('../slices/cartSlice'); 
-dispatch(clearCart());
-  const cartRef = getUserCartRef(userId);
-  await setDoc(cartRef, { items: [] });
-} else {
-  clearGuestCart();
-  dispatch(setCart([])); 
-}
-} catch (error) { console.error("Ошибка при очистке корзины:", error); } };
-
-export const removeItemWithSave = (userId, itemId) => async (dispatch, getState) => { 
-  try { const { removeItem } = await import('../slices/cartSlice'); 
-  dispatch(removeItem(itemId));
-if (userId) {
-  await dispatch(saveCartToFirestore(userId));
-} else {
-  const state = getState();
-  saveGuestCart(state.cart);
-  console.log('[guestCart] removeItemWithSave guest path called, state.cart:', state.cart);
-}
-} catch (e) { console.error('Ошибка в removeItemWithSave:', e); } };
+export const removeItemWithSave = (userId, itemId) => async (dispatch, getState) => {
+  try {
+    dispatch(removeItem(itemId));
+    if (userId) {
+      await dispatch(saveCartToFirestore(userId));
+    } else {
+      const state = getState();
+      saveGuestCart(state.cart);
+    }
+  } catch (e) { 
+    console.error('Ошибка в removeItemWithSave:', e); 
+  }
+};

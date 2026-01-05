@@ -47,6 +47,7 @@ const HomePage = memo(() => {
           sx={BooksContainerStyles.container}>
           {[...Array(8)].map((_, index) => (
             <Box key={index}
+            data-testid="loading-skeleton"
               sx={BooksContainerStyles.skeleton} />))}
         </Box>
       </Box>)

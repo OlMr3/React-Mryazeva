@@ -1,4 +1,3 @@
-// BookPage.styles.js
 export const bookPageStyles = {
   container: {
     maxWidth: 'lg',
@@ -80,7 +79,7 @@ export const bookPageStyles = {
     py: 1.5,
     px: 3,
     minWidth: 200,
-   
+
   },
   errorPaper: {
     p: 4,

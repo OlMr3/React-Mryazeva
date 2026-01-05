@@ -28,7 +28,6 @@ const Header = memo(function Header() {
   const handleSearchSubmit = useCallback((event) => {
     if (event.key === "Enter") {
       const searchTerm = event.target.value.trim();
-
       dispatch(setSearchQuery(searchTerm));
       navigate(`/catalog?search=${encodeURIComponent(searchTerm)}&page=1`);
       event.target.value = "";

@@ -82,7 +82,7 @@ const Catalog = memo(() => {
                 </Box>
             )}
 
-               <Box sx={{ ...bookPageStyles.actionButtons, mt: 3 }}>
+            <Box sx={{ ...bookPageStyles.actionButtons, mt: 3 }}>
                 <Button
                     variant="contained"
                     size="large"

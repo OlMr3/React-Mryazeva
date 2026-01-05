@@ -11,13 +11,12 @@ import {
   Link,
   CircularProgress
 } from '@mui/material';
-import { registerUser } from '../../../store/slices/authThunks'; 
+import { registerUser } from '../../../store/slices/authThunks';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, error } = useSelector((state) => state.auth);
-
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -39,7 +38,7 @@ const RegisterPage = () => {
     const userData = {
       email: formData.email,
       password: formData.password,
-      displayName: formData.username 
+      displayName: formData.username
     };
 
     const resultAction = await dispatch(registerUser(userData));
@@ -77,7 +76,7 @@ const RegisterPage = () => {
             autoFocus
             value={formData.username}
             onChange={handleChange}
-            disabled={isLoading} 
+            disabled={isLoading}
           />
           <TextField
             margin="normal"
@@ -102,7 +101,7 @@ const RegisterPage = () => {
             autoComplete="new-password"
             value={formData.password}
             onChange={handleChange}
-            disabled={isLoading} 
+            disabled={isLoading}
           />
           <TextField
             margin="normal"
@@ -115,14 +114,14 @@ const RegisterPage = () => {
             autoComplete="new-password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            disabled={isLoading} 
+            disabled={isLoading}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={isLoading} 
+            disabled={isLoading}
           >
             {isLoading ? <CircularProgress size={24} /> : 'Зарегистрироваться'}
           </Button>

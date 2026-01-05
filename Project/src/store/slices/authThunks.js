@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { 
-  createUserWithEmailAndPassword, 
+import {
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   updateProfile
@@ -13,11 +13,9 @@ export const registerUser = createAsyncThunk(
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
       if (displayName) {
         await updateProfile(user, { displayName });
       }
-
       return {
         uid: user.uid,
         email: user.email,

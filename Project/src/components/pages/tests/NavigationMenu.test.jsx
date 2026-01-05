@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider} from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
@@ -108,30 +108,4 @@ describe('NavigationMenu', () => {
       expect(screen.queryByText('Классическая литература')).not.toBeInTheDocument();
     });
   });
-
- /* describe('Redux взаимодействие', () => {
-    test('диспатчит setGenre при выборе жанра', () => {
-      renderWithProviders(false);
-      const fictionItem = screen.getByText('Художественная литература');
-      fireEvent.mouseEnter(fictionItem);
-      const fantasyLink = screen.getByText('Фэнтези');
-      fireEvent.change(fantasyLink);
-      expect(mockDispatch).toHaveBeenCalledWith(setGenre('fantasy'));
-    });
-    test('При выборе жанра вызывается updateURL с новыми фильтрами', async () => {
-      renderWithProviders(false);
-
-      const fictionItem = screen.getByText('Художественная литература');
-      fireEvent.mouseEnter(fictionItem);
-
-      expect(screen.getByText('Классическая литература')).toBeInTheDocument();
-
-      const classicGenreLink = screen.getByText('Классическая литература');
-      fireEvent.click(classicGenreLink);
-      expect(mockUpdateURL).toHaveBeenCalledWith({
-        genre: 'classic',
-        page: 1,
-      });
-    });
-  });*/
 });

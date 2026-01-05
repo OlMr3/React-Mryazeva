@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchBooks, fetchPromoSlides, fetchBookById } from './firebaseThunks'; // Импортируем новый thunk
+import { fetchBooks, fetchPromoSlides, fetchBookById } from './firebaseThunks'; 
 
 const collectionsSlice = createSlice({
   name: 'collections',
   initialState: {
-    books: { 
-      data: [], 
-      loading: false, 
+    books: {
+      data: [],
+      loading: false,
       error: null,
       currentBook: null,
     },
@@ -17,20 +17,18 @@ const collectionsSlice = createSlice({
       state.books.currentBook = null;
     },
     setCachedBooks: (state, action) => {
+      const currentBooks = state.books?.data || [];
+      const newBooks = action.payload;
 
-  const currentBooks = state.books?.data || [];
-  const newBooks = action.payload;
-  
-  if (currentBooks.length !== newBooks.length || 
-      JSON.stringify(currentBooks) !== JSON.stringify(newBooks)) {
-    state.books = {
-      ...state.books,
-      data: newBooks,
-      loading: false
-    };
-  }
-}
-    
+      if (currentBooks.length !== newBooks.length ||
+        JSON.stringify(currentBooks) !== JSON.stringify(newBooks)) {
+        state.books = {
+          ...state.books,
+          data: newBooks,
+          loading: false
+        };
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -38,27 +36,26 @@ const collectionsSlice = createSlice({
         state.books.loading = true;
         state.books.error = null;
       })
-     .addCase(fetchBooks.fulfilled, (state, action) => {
-  
-  state.books.loading = false;
-  
-  const newBooks = action.payload;
-  const currentBooks = state.books.data || [];
-  
-  if (currentBooks.length > 0 && 
-      JSON.stringify(currentBooks) === JSON.stringify(newBooks)) {
-    return;
-  }
+      .addCase(fetchBooks.fulfilled, (state, action) => {
 
-  state.books.data = newBooks;
+        state.books.loading = false;
 
-})
+        const newBooks = action.payload;
+        const currentBooks = state.books.data || [];
 
+        if (currentBooks.length > 0 &&
+          JSON.stringify(currentBooks) === JSON.stringify(newBooks)) {
+          return;
+        }
+
+        state.books.data = newBooks;
+
+      })
       .addCase(fetchBooks.rejected, (state, action) => {
         state.books.loading = false;
         state.books.error = action.payload;
       });
-   
+
     builder
       .addCase(fetchPromoSlides.pending, (state) => {
         state.promoSlides.loading = true;
@@ -72,7 +69,7 @@ const collectionsSlice = createSlice({
         state.promoSlides.loading = false;
         state.promoSlides.error = action.payload;
       });
-    
+
     builder
       .addCase(fetchBookById.pending, (state) => {
         state.books.loading = true;
@@ -80,12 +77,12 @@ const collectionsSlice = createSlice({
       })
       .addCase(fetchBookById.fulfilled, (state, action) => {
         state.books.loading = false;
-        state.books.currentBook = action.payload; 
+        state.books.currentBook = action.payload;
       })
       .addCase(fetchBookById.rejected, (state, action) => {
         state.books.loading = false;
         state.books.error = action.payload;
-        state.books.currentBook = null; 
+        state.books.currentBook = null;
       });
   },
 });
