@@ -187,31 +187,6 @@ describe('CartPage', () => {
     });
   });
 
-  /* describe('Оформление заказа', () => {
-     it('показывает alert при клике на "Оформить заказ"', () => {
-       window.alert = vi.fn();
-       
-       const store = createMockStore({
-         cart: {
-           items: [mockCartItems[0]],
-           total: 200,
-         },
-         auth: { userData: null, isAuth: false },
-       });
- 
-       render(
-         <Provider store={store}>
-           <CartPage />
-         </Provider>
-       );
- 
-       const checkoutButton = screen.getByText('Оформить заказ');
-       fireEvent.click(checkoutButton);
- 
-       expect(window.alert).toHaveBeenCalledWith('Функция оформления заказа в разработке');
-     });
-   });*/
-
   describe('Очистка корзины', () => {
     it('вызывает clearCart при клике на "Очистить корзину"', async () => {
       const store = createMockStore({
